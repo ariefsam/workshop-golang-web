@@ -4,10 +4,12 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"todo/api"
 	"todo/page"
 )
 
 func Server() {
+	http.HandleFunc("/api/register", api.Register)
 	http.HandleFunc("/register", page.Register)
 	http.HandleFunc("/", page.Index)
 	s := &http.Server{
