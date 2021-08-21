@@ -10,7 +10,9 @@ import (
 
 func Server() {
 	http.HandleFunc("/api/register", api.Register)
+	http.HandleFunc("/api/login", api.Login)
 	http.HandleFunc("/register", page.Register)
+	http.HandleFunc("/login", page.Login)
 	http.HandleFunc("/", page.Index)
 	s := &http.Server{
 		Addr:           ":8080",
