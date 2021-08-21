@@ -60,8 +60,17 @@
               });
         }
 
-        token = localStorage.getItem("token_todo")
-        document.getElementById("token").value=token
+        
+    </script>
+    <script>
+        token = localStorage.getItem("token_todo");
+        document.getElementById("token").value=token;
+        var item = {};
+        item.token=token;
+        postData('/api/profile', item)
+              .then(data => {
+                console.log(data)
+              });
     </script>
   </body>
 </html>
