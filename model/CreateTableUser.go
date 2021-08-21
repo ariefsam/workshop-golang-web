@@ -28,5 +28,6 @@ func CreateTableUser() (err error) {
 	`
 
 	_, err = db.Exec(sqlStmt)
+	db.Close()
 	return
 }
