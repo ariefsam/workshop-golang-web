@@ -7,7 +7,10 @@ import (
 
 func TestCreateTableUser(t *testing.T) {
 	InitMySQL()
-	model.CreateTableUser()
+	err := model.CreateTableUser()
+	if err != nil {
+		t.Error(err.Error())
+	}
 }
 
 func InitMySQL() {

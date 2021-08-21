@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"todo/model"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -13,5 +14,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewDecoder(r.Body).Decode(&data)
 
-	log.Printf("%+v", data)
+	id, err := model.CreateUser(data.Email, data.Password)
+
+	//log.Printf("%+v", data)
+	log.Println(id, err)
 }

@@ -22,7 +22,7 @@ func CreateTableUser() (err error) {
 	sqlStmt := `
 	   CREATE TABLE if not exists user (
 		   id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		   email TEXT,
+		   email VARCHAR(255) UNIQUE,
 		   password TEXT
 	   );
 	`
