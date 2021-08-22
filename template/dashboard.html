@@ -31,19 +31,20 @@
 <br /><br />
         <div id="app">
           <div class="row">
-            <div class="col-sm-3" v-for="todo in tasks" style="margin-bottom:10px;">
-              <div class="card" style="width: 18rem;">
-                <div class="card-body">
+            <div class="col-sm-3" v-for="stat in status">
+              <div class="card" style="width: 18rem;" v-for="todo in tasks" v-if="todo.Status==stat" style="margin-bottom:10px;">
+                <div class="card-body" style="margin-bottom:10px;">
                   <h5 class="card-title">{{todo.Name}}</h5>
                   <p class="card-text">{{todo.Description}}</p>
                   <p class="card-text">{{todo.Status}}</p>
-                  <button class="btn btn-danger" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'todo')">todo</button>
-                  <button class="btn btn-primary" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'doing')">doing</button>
-                  <button class="btn btn-info" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'done')">done</button>
+                  <button class="btn btn-danger" v-show="todo.Status!='todo'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'todo')">todo</button>
+                  <button class="btn btn-primary" v-show="todo.Status!='doing'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'doing')">doing</button>
+                  <button class="btn btn-info" v-show="todo.Status!='done'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'done')">done</button>
                   
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
     </div>
@@ -103,6 +104,7 @@
         var app = new Vue({
           el: '#app',
           data: {
+            status: ['todo','doing','done'],
             tasks: []
           }
         })
