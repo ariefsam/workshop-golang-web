@@ -31,12 +31,16 @@
 <br /><br />
         <div id="app">
           <div class="row">
-            <div class="col-sm-3" v-for="todo in tasks">
+            <div class="col-sm-3" v-for="todo in tasks" style="margin-bottom:10px;">
               <div class="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">{{todo.Name}}</h5>
                   <p class="card-text">{{todo.Description}}</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <p class="card-text">{{todo.Status}}</p>
+                  <button class="btn btn-danger" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'todo')">todo</button>
+                  <button class="btn btn-primary" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'doing')">doing</button>
+                  <button class="btn btn-info" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'done')">done</button>
+                  
                 </div>
               </div>
             </div>
@@ -118,6 +122,22 @@
                 console.log(data)
                 app.tasks=data.data;                
               });
+        function changeStatus(id, status){
+          var item={};
+          item.token=token;
+          item.task_id=parseInt(id);
+          item.status=status;
+          postData('/api/change-task-status', item)
+              .then(data => {
+                if (data.error!="") {
+                    alert(error)
+                } else {
+                    window.location.reload();
+                }
+                console.log(data);
+              });
+          
+        }
         
     </script>
   </body>
