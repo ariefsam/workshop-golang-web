@@ -56,11 +56,35 @@
                 <div class="card-body" style="margin-bottom:10px;">
                   <h5 class="card-title">{{todo.Name}}</h5>
                   <p class="card-text">{{todo.Description}}</p>
-                  <p class="card-text">{{todo.Status}}</p>
+                  <p class="card-text">{{todo.Status}} <button v-bind:dataid="todo.ID"  data-bs-toggle="modal" v-bind:data-bs-target="'#edit'+todo.ID" class="btn btn-success">Edit</button></p>
                   <button class="btn btn-danger" v-show="todo.Status!='todo'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'todo')">todo</button>
                   <button class="btn btn-primary" v-show="todo.Status!='doing'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'doing')">doing</button>
                   <button class="btn btn-info" v-show="todo.Status!='done'" v-bind:dataid="todo.ID" onclick="changeStatus(this.getAttribute('dataid'),'done')">done</button>
-                  
+                  <div class="modal" tabindex="-1" v-bind:id="'edit'+todo.ID">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Edit Task</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="name" class="form-label" autocomplete="off">Task Name</label>
+                            <input type="text" class="form-control" v-bind:id="'name'+todo.ID" placeholder="Menyapu lantai" v-bind:value="todo.Name">
+                          </div>
+                          <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" v-bind:id="'description'+todo.ID" rows="3">{{todo.Description}}</textarea>
+                          </div>
+                          
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" v-bind:dataid="todo.ID" onclick="edit(this.getAttribute('dataid'))">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -159,6 +183,24 @@
                 console.log(data);
               });
           
+        }
+
+        function edit(id) {
+            var item={};
+            item.token=token;
+            item.task_id=parseInt(id);
+            item.name = document.getElementById("name" + id).value
+            item.description = document.getElementById("description" + id).value
+            postData('/api/edit-task', item)
+              .then(data => {
+                if (data.error!="") {
+                    alert(error)
+                } else {
+                    window.location.reload();
+                }
+                console.log(data);
+              });
+
         }
         
     </script>

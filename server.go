@@ -14,6 +14,7 @@ func Server() {
 	http.HandleFunc("/api/profile", api.Profile)
 	http.HandleFunc("/api/create-task", api.CreateTask)
 	http.HandleFunc("/api/list-task", api.ListTask)
+	http.HandleFunc("/api/edit-task", api.EditTask)
 	http.HandleFunc("/api/change-task-status", api.ChangeTaskStatus)
 	http.HandleFunc("/register", page.Register)
 	http.HandleFunc("/dashboard", page.Dashboard)
