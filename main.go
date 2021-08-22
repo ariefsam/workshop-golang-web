@@ -1,11 +1,20 @@
 package main
 
-import "todo/model"
+import (
+	"log"
+	"todo/model"
+)
 
 func main() {
 	InitMySQL()
-	model.CreateTableUser()
-	model.CreateTableTask()
+	err := model.CreateTableUser()
+	if err != nil {
+		log.Println(err)
+	}
+	err = model.CreateTableTask()
+	if err != nil {
+		log.Println(err)
+	}
 	Server()
 }
 
