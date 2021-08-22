@@ -11,10 +11,11 @@ var MySQL struct {
 	User     string
 	Password string
 	Database string
+	Host     string
 }
 
 func CreateTableUser() (err error) {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", MySQL.User, MySQL.Password, MySQL.Database))
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@%s/%s", MySQL.User, MySQL.Password, MySQL.Host, MySQL.Database))
 	if err != nil {
 		return
 	}
