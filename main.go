@@ -5,6 +5,7 @@ import "todo/model"
 func main() {
 	InitMySQL()
 	model.CreateTableUser()
+	model.CreateTableTask()
 	Server()
 }
 

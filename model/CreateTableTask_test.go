@@ -5,9 +5,9 @@ import (
 	"todo/model"
 )
 
-func TestCreateTableUser(t *testing.T) {
+func TestCreateTableTask(t *testing.T) {
 	InitMySQL()
-	err := model.CreateTableUser()
+	err := model.CreateTableTask()
 	if err != nil {
 		t.Error(err.Error())
 	}
