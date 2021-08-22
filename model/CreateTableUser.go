@@ -15,7 +15,7 @@ var MySQL struct {
 }
 
 func CreateTableUser() (err error) {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@%s/%s", MySQL.User, MySQL.Password, MySQL.Host, MySQL.Database))
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", MySQL.User, MySQL.Password, MySQL.Database))
 	if err != nil {
 		return
 	}
