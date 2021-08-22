@@ -13,7 +13,35 @@
   <body>
     <div class="container">
         <h1>Dashboard</h1>
-        <input type="text" id="token">
+        <div class="mb-3">
+          <label for="name" class="form-label" autocomplete="off">Task Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Menyapu lantai">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <select id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+          <option value="todo">To Do</option>
+          <option value="doing">Doing</option>
+          <option value="done">Done</option>
+        </select>
+        <button type="button" class="btn btn-success" onclick="submit()">Submit</button>
+        
+<br /><br />
+        <div id="app">
+          <div class="row">
+            <div class="col-sm-3" v-for="todo in tasks">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{todo.Name}}</h5>
+                  <p class="card-text">{{todo.Description}}</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -25,7 +53,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script>
         async function postData(url = '', data = {}) {
           // Default options are marked with *
@@ -45,14 +73,17 @@
           return response.json(); // parses JSON response into native JavaScript objects
         }
 
-        function login() {
+        var tasks;
+
+        function submit() {
             var item = {};
-            item.email = document.getElementById("email").value
-            item.password = document.getElementById("password").value
-            postData('/api/login', item)
+            item.name = document.getElementById("name").value
+            item.description = document.getElementById("description").value
+            item.status = document.getElementById("status").value
+            item.token = token
+            postData('/api/create-task', item)
               .then(data => {
                 if (data.error=="") {
-                    localStorage.setItem("token_todo", data.session_id);
                     window.location="/dashboard"
                 } else {
                     alert(data.error)
@@ -61,16 +92,33 @@
         }
 
         
+
+        
     </script>
     <script>
+        var app = new Vue({
+          el: '#app',
+          data: {
+            tasks: []
+          }
+        })
         token = localStorage.getItem("token_todo");
-        document.getElementById("token").value=token;
+        
         var item = {};
         item.token=token;
         postData('/api/profile', item)
               .then(data => {
                 console.log(data)
+                if (data.error!="") {
+                    window.location="/login"
+                }
               });
+        postData('/api/list-task', item)
+              .then(data => {
+                console.log(data)
+                app.tasks=data.data;                
+              });
+        
     </script>
   </body>
 </html>
